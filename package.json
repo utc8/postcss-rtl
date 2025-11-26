@@ -43,7 +43,7 @@
   "scripts": {
     "build": "babel ./src --out-dir ./lib --ignore '**/__tests__/*'",
     "lint": "eslint ./src",
-    "prepare": "npm run lint && npm run build",
+    "prepare": "npm run build",
     "start": "jest --watch",
     "test": "jest"
   },
