@@ -1,6 +1,6 @@
 {
   "name": "@tencent/postcss-rtl",
-  "version": "2.0.2",
+  "version": "2.0.0",
   "description": "PostCSS plugin for RTL-optimizations",
   "keywords": [
     "postcss",
@@ -43,7 +43,7 @@
   "scripts": {
     "build": "babel ./src --out-dir ./lib --ignore '**/__tests__/*'",
     "lint": "eslint ./src",
-    "prepare": "npm run build",
+    "prepare-local": "npm run lint && npm run build && npm test",
     "start": "jest --watch",
     "test": "jest"
   },
