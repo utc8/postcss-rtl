@@ -20,6 +20,8 @@ const validateOptions = (options = {}) => {
     prefix,
     prefixType,
     removeComments,
+    include,
+    exclude,
     blacklist,
     whitelist,
   } = options;
@@ -71,6 +73,12 @@ const validateOptions = (options = {}) => {
   if (aliases && aliases instanceof Object !== true) {
     fixedOptions.aliases = defaultOptions.aliases;
     console.warn('Incorrect aliases option. Must be record of strings');
+  }
+  if (include && (typeof include !== 'function' && typeof include !== 'string' && !(include instanceof RegExp))) {
+    console.warn('Incorrect include option. Must be a function or string or regex');
+  }
+  if (exclude && (typeof exclude !== 'function' && typeof exclude !== 'string' && !(exclude instanceof RegExp))) {
+    console.warn('Incorrect exclude option. Must be a function or string or regex');
   }
 
   return {

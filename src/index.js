@@ -132,6 +132,8 @@ const handleAliases = (decl, ltrDecls, rtlDecls, keyframes, options) => {
 
 const plugin = (options) => {
   options = validateOptions(options);
+  const {include} = options;
+  const {exclude} = options;
   const whitelist = new Set(options.whitelist);
   const blacklist = new Set(options.blacklist);
 
@@ -141,9 +143,32 @@ const plugin = (options) => {
     return isAllowedByWhitelist && isAllowedByBlacklist;
   };
 
+  let isExcludeFile = false;
   return {
     postcssPlugin: 'postcss-rtl',
     Once(root) {
+      const filePath = root.source.input.file;
+      if (include) {
+        if (
+          (typeof include === 'function' && !include(filePath))
+          || (typeof include === 'string' && filePath.indexOf(include) === -1)
+          || filePath.match(include) === null
+        ) {
+          isExcludeFile = true;
+        }
+      } else if (exclude) {
+        if (
+          (typeof exclude === 'function' && exclude(filePath))
+          || (typeof exclude === 'string' && filePath.indexOf(exclude) !== -1)
+          || filePath.match(exclude) !== null
+        ) {
+          isExcludeFile = true;
+        }
+      }
+
+      if (isExcludeFile) {
+        return;
+      }
       const keyframes = [];
 
       const isKeyframeIgnored = handleIgnores();
